@@ -11,7 +11,7 @@
   <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-  <!-- Google Font -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
   <style>
@@ -28,6 +28,7 @@
       background: rgba(46, 204, 113, 0.9);
       color: white;
       padding: 30px 0;
+      text-align: center;
     }
 
     header h1 {
@@ -51,6 +52,8 @@
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       color: white;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .word {
@@ -93,11 +96,11 @@
       flex-direction: column;
       text-decoration: none;
       color: inherit;
+      transition: transform 0.3s ease;
     }
 
     .product-card:hover {
       transform: scale(1.03);
-      transition: 0.3s ease;
     }
 
     .product-card img {
@@ -139,13 +142,32 @@
     a {
       text-decoration: none;
     }
+
+    @media (max-width: 576px) {
+      .fresh-heading {
+        font-size: 2.4rem;
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      .featured-section h2 {
+        font-size: 2rem;
+      }
+
+      .about h2,
+      .cta h2 {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header class="text-center">
-    <h1 class="animate__animated animate__fadeInDown">Grocery WebApp</h1>
+  <header class="animate__animated animate__fadeInDown">
+    <h1>Grocery WebApp</h1>
     <p class="animate__animated animate__fadeIn animate__delay-1s">Your one-stop grocery shop</p>
   </header>
 
@@ -164,7 +186,7 @@
     <div class="container">
       <div class="row g-4">
 
-        <!-- Product Cards with links to product.html -->
+        <!-- Product Cards (link to products.html) -->
         <div class="col-md-4 d-flex">
           <a href="products.html" class="card product-card w-100">
             <img src="img/pexels-public-domain-pictures-42059.jpg" class="card-img-top" alt="Fresh Fruits">
@@ -229,7 +251,7 @@
     </div>
   </section>
 
-  <!-- About -->
+  <!-- About Section -->
   <section class="about">
     <h2 class="animate__animated animate__fadeInDown">Why Choose Us?</h2>
     <p class="animate__animated animate__fadeInUp animate__delay-1s">
@@ -237,7 +259,7 @@
     </p>
   </section>
 
-  <!-- CTA -->
+  <!-- Call to Action -->
   <section class="cta">
     <h2 class="animate__animated animate__fadeInUp">Start Shopping Now</h2>
     <a href="products.html" class="btn btn-light btn-lg mt-3 animate__animated animate__pulse animate__infinite">Browse Products</a>

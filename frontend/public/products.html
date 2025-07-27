@@ -127,7 +127,7 @@
   <div id="message-box" class="animate__animated animate__fadeInDown"></div>
 
   <script>
-    const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com/products";
+    const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com";
     const productsContainer = document.getElementById("products-container");
     const messageBox = document.getElementById("message-box");
     const searchInput = document.getElementById("searchInput");
@@ -175,7 +175,7 @@
 
     async function loadProducts() {
       try {
-        const res = await fetch(`${API_BASE_URL}/products`);
+        const res = await fetch(`${API_BASE_URL}/api/products`);
         allProducts = await res.json();
         renderProducts();
       } catch (err) {

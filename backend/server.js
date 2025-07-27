@@ -4,8 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
-// 📦 Load environment variables
-dotenv.config();
+dotenv.config(); // Load .env
 
 // 🔗 Connect to MongoDB
 connectDB();
@@ -14,17 +13,15 @@ const app = express();
 
 // ✅ Allowed Origins for CORS
 const allowedOrigins = [
-  "https://my-grocery-app-2025.netlify.app", // ✅ Production (Netlify)
-  "http://127.0.0.1:5500",                   // ✅ Local (VS Code Live Server)
-  "http://localhost:5500",                   // ✅ Alternate localhost
-  "http://localhost:3000",                   // ✅ Local React dev
+  "https://my-grocery-app-2025.netlify.app", // ✅ Deployed frontend (Netlify)
+  "http://127.0.0.1:5500",                   // ✅ Local frontend (Live Server)
+  "http://localhost:3000",                  // ✅ React dev or other local clients
 ];
 
-// ✅ CORS Middleware
+// ✅ CORS Setup
 app.use(cors({
   origin: function (origin, callback) {
-    console.log("🌐 Incoming Origin:", origin); // Log origin for debugging
-
+    console.log("🌐 Incoming Origin:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -37,21 +34,21 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-// ✅ Middleware to handle JSON and form data
+// ✅ Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ API Routes
-app.use("/api/auth", require("./routes/auth"));         // 🔐 Auth routes
-app.use("/api/products", require("./routes/products")); // 🛍 Product routes
-app.use("/api/orders", require("./routes/orders"));     // 📦 Order routes
+app.use("/api/auth", require("./routes/auth"));         // 🔐 Auth
+app.use("/api/products", require("./routes/products")); // 🛍 Products
+app.use("/api/orders", require("./routes/orders"));     // 📦 Orders
 
-// ✅ Health Check
+// ✅ Health Check Route
 app.get("/", (req, res) => {
-  res.send("🛒 Grocery API is running...");
+  res.send("🛒 Grocery API is live and running.");
 });
 
-// ❌ 404 Handler
+// ❌ 404 Fallback
 app.use((req, res, next) => {
   res.status(404).json({ message: "❌ Route not found" });
 });
@@ -62,7 +59,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "❌ Internal Server Error", error: err.message });
 });
 
-// 🚀 Start Server
+// 🚀 Launch server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);

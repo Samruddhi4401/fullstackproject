@@ -8,19 +8,25 @@ const User = require("../models/User");
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
+
   if (!token) {
     return res.status(401).json({ message: "❌ Not authenticated. Please log in." });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // decoded must include { id, role }
+    req.user = decoded; // Contains { id, role }
     next();
   } catch (err) {
     console.error("❌ Token error:", err.message);
     return res.status(403).json({ message: "❌ Invalid or expired token." });
   }
 };
+
+// ✅ GET /api/orders/test - Test Route to check if backend is working
+router.get("/test", (req, res) => {
+  res.send("✅ Orders route working!");
+});
 
 // 🛒 POST /api/orders - Create Order
 router.post("/", authMiddleware, async (req, res) => {
@@ -49,12 +55,12 @@ router.post("/", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "❌ User not found." });
     }
 
-    // ✅ Include full user info inside the order, including id
+    // ✅ Create new order
     const order = new Order({
       user: {
         name: userData.name,
         email: userData.email,
-        id: userData._id, // Include user ID here
+        id: userData._id,
       },
       items,
       address,
