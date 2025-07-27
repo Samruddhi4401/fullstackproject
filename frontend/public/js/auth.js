@@ -1,5 +1,5 @@
 // 🔗 Base URL of your backend
-const API_BASE_URL = "http://localhost:5000/api"; // Update if deployed
+const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com"; // Update if deployed
 
 // ✅ Signup Logic
 document.getElementById("signupForm")?.addEventListener("submit", async (event) => {

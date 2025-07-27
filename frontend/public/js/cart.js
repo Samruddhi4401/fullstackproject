@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api"; // Change if hosted elsewhere
+const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com"; // Change if hosted elsewhere
 
 // Load and display cart items
 async function loadCart() {
