@@ -14,14 +14,13 @@ const app = express();
 
 // ✅ CORS Configuration
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://127.0.0.1:5500",
-  "https://fullstackproject-bh7s.onrender.com", // ✅ Replace with your actual Netlify frontend URL
+  "https://my-grocery-app-2025.netlify.app",   // ✅ Your Netlify frontend
+  "http://localhost:3000",                     // (Optional: for local testing)
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl)
+    // allow requests with no origin (like curl or Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -63,4 +62,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
