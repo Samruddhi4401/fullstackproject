@@ -14,17 +14,18 @@ const app = express();
 
 // ✅ CORS Configuration
 const allowedOrigins = [
-  "https://my-grocery-app-2025.netlify.app",   // ✅ Your Netlify frontend
-  "http://localhost:3000",                     // (Optional: for local testing)
+  "https://my-grocery-app-2025.netlify.app", // ✅ Netlify production
+  "http://127.0.0.1:5500",                   // ✅ Local testing (Live Server)
+  "http://localhost:3000",                   // ✅ Local React dev
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like curl or Postman)
+    // Allow requests with no origin (like Postman or curl)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("❌ Not allowed by CORS"));
+      callback(new Error("❌ Not allowed by CORS: " + origin));
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE"],

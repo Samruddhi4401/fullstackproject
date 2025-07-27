@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const base64Image = await convertToBase64(imageFile);
       const productData = { name, price, stock, image: base64Image };
 
-      const response = await fetch("https://fullstackproject-bh7s.onrender.com/", {
+      const response = await fetch("https://fullstackproject-bh7s.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
