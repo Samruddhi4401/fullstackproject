@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com"; // Change if hosted elsewhere
+const API_BASE_URL = "https://fullstackproject-bh7s.onrender.com"; // Backend base URL
 
 // Load and display cart items
 async function loadCart() {
@@ -17,32 +17,32 @@ async function loadCart() {
       const product = await res.json();
 
       const div = document.createElement("div");
-      div.className = "col-md-4";
+      div.className = "col-md-4 mb-3";
       div.innerHTML = `
-        <div class="card h-100">
-          <img src="${product.image}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="${product.name}">
-          <div class="card-body">
+        <div class="card h-100 shadow-sm">
+          <img src="${product.image}" class="card-img-top p-3" style="height: 200px; object-fit: contain;" alt="${product.name}">
+          <div class="card-body text-center">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">Price: ₹${product.price}</p>
             <p class="card-text">Quantity: ${item.quantity}</p>
-            <p class="card-text">Subtotal: ₹${product.price * item.quantity}</p>
+            <p class="card-text fw-bold">Subtotal: ₹${product.price * item.quantity}</p>
           </div>
         </div>
       `;
       container.appendChild(div);
     } catch (err) {
       console.error("Error loading product:", err);
-      container.innerHTML += `<p>Error loading product ID: ${item.productId}</p>`;
+      container.innerHTML += `<p class="text-danger">Error loading product ID: ${item.productId}</p>`;
     }
   }
 }
 
-// Show address input
+// Show delivery address input
 function placeOrder() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   if (cart.length === 0) {
-    alert("Your cart is empty!");
+    alert("🛒 Your cart is empty!");
     return;
   }
 
@@ -50,7 +50,7 @@ function placeOrder() {
   if (addressForm) {
     addressForm.classList.remove("d-none");
   } else {
-    alert("Address form missing in HTML!");
+    alert("❌ Address form not found in HTML.");
   }
 }
 
@@ -62,19 +62,19 @@ async function submitOrder(event) {
   const address = document.getElementById("delivery-address").value.trim();
 
   if (!address) {
-    alert("❌ Please enter delivery address.");
+    alert("❌ Please enter a delivery address.");
     return;
   }
 
-  // Fetch complete product data
   const items = [];
+
   for (const cartItem of rawCart) {
     try {
       const res = await fetch(`${API_BASE_URL}/products/${cartItem.productId}`);
       const product = await res.json();
 
       if (!product.name || product.price == null || cartItem.quantity == null) {
-        alert("❌ Each item must have name, price, and quantity.");
+        alert("❌ Invalid product data. Try again.");
         return;
       }
 
@@ -82,7 +82,7 @@ async function submitOrder(event) {
         name: product.name,
         price: Number(product.price),
         image: product.image || "",
-        quantity: Number(cartItem.quantity)
+        quantity: Number(cartItem.quantity),
       });
     } catch (err) {
       console.error("❌ Failed to fetch product:", cartItem.productId, err);
@@ -118,7 +118,7 @@ async function submitOrder(event) {
       document.getElementById("address-form").classList.add("d-none");
       document.getElementById("feedback-section").classList.remove("d-none");
     } else {
-      alert("❌ Order failed: " + (result.error || result.message || "Unknown error"));
+      alert("❌ Order failed: " + (result.message || "Unknown error"));
     }
   } catch (err) {
     console.error("❌ Order error:", err);
@@ -126,7 +126,7 @@ async function submitOrder(event) {
   }
 }
 
-// Save user feedback
+// Save user feedback after order
 function submitFeedback(event) {
   event.preventDefault();
 
@@ -146,5 +146,5 @@ function submitFeedback(event) {
   document.getElementById("feedback-section").classList.add("d-none");
 }
 
-// Load cart on page load
+// Event listeners
 document.addEventListener("DOMContentLoaded", loadCart);

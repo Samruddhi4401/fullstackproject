@@ -1,4 +1,3 @@
-// Sample products list
 const sampleProducts = [
   { _id: "1", name: "Tomato", price: 20, image: "img/tomato.jpg" },
   { _id: "2", name: "Potato", price: 15, image: "img/potato.jpg" },
@@ -12,22 +11,22 @@ const sampleProducts = [
   { _id: "10", name: "Green Peas", price: 35, image: "img/greenpea.jpeg" }
 ];
 
-// Add product to cart
-function addToCart(product) {
+// Add product to cart using _id only
+function addToCart(productId) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const existing = cart.find(item => item._id === product._id);
 
+  const existing = cart.find(item => item.productId === productId);
   if (existing) {
     alert("❌ Product already in cart!");
     return;
   }
 
-  cart.push({ ...product, quantity: 1 });
+  cart.push({ productId, quantity: 1 });
   localStorage.setItem("cart", JSON.stringify(cart));
   alert("✅ Product added to cart!");
 }
 
-// Display product cards on page
+// Display all products
 function displayProducts() {
   const container = document.getElementById("products-container");
 
@@ -36,13 +35,12 @@ function displayProducts() {
     return;
   }
 
-  container.innerHTML = ''; // Clear any existing content
+  container.innerHTML = ''; // Clear existing content
 
   sampleProducts.forEach(product => {
     const div = document.createElement("div");
     div.className = "col-md-4 mb-4";
 
-    // Using safe template literal
     div.innerHTML = `
       <div class="card h-100 shadow-sm">
         <img src="${product.image}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
@@ -52,13 +50,12 @@ function displayProducts() {
           <button class="btn btn-success w-100">Add to Cart</button>
         </div>
       </div>
-      <script type="application/json" id="data-${product._id}">${JSON.stringify(product)}</script>
     `;
 
-    div.querySelector("button").addEventListener("click", () => addToCart(product));
+    div.querySelector("button").addEventListener("click", () => addToCart(product._id));
     container.appendChild(div);
   });
 }
 
-// Call display function on page load
+// Load products on page ready
 document.addEventListener("DOMContentLoaded", displayProducts);
